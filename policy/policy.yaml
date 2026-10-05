@@ -1,0 +1,60 @@
+# Versioned policy defaults. The agent has no tool that can write this file.
+# Dashboard overrides (Phase 4) live in the policy_overrides table and are
+# merged on top; the merged result is hashed and stamped on every agent run.
+version: 1
+
+models:
+  agent: claude-sonnet-5-5
+  classifier: claude-haiku-4-5-20251001
+
+# Agent loop caps. A breach ends the run with outcome=capped and alerts the owner.
+caps:
+  max_steps: 12
+  max_tokens: 60000
+  max_wall_ms: 90000
+  max_consecutive_tool_failures: 2
+
+# Tier floors per tool. Everything starts at Tier 2 (owner approval) and is
+# loosened one tool at a time. Tier 3 is hardcoded in code and is not listed here.
+tiers:
+  default_tool_tier: 2
+  tools:
+    # A fixed acknowledgement template, sent only to the person who just wrote in.
+    send_ack: 0
+    # Messages to the owner are how the system asks for help.
+    alert_owner: 0
+
+spend:
+  # Any action with an amount above this needs owner approval.
+  auto_approve_max_cents: 0
+  # Daily LLM budget. When exceeded the harness drops to degraded mode.
+  llm_daily_cap_usd: 5
+
+undo_window_minutes: 10
+
+approvals:
+  code_ttl_hours: 48
+
+rate_limits:
+  sms_per_recipient_per_day: 6
+  email_per_recipient_per_day: 4
+  thread_velocity:
+    max_agent_messages: 3
+    window_minutes: 30
+
+emergency:
+  # Do not repeat the safety reply to the same contact within this window.
+  cooldown_minutes: 30
+  # In-process send attempts before handing the message to the queue.
+  send_attempts: 3
+
+memory:
+  # New facts are written as "proposed" and are not loaded into agent context
+  # until the owner approves them.
+  require_review: true
+  categories:
+    - contact_pref
+    - past_issue
+    - vendor_history
+    - tone
+    - access_notes

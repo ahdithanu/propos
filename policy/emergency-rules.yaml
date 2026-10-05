@@ -1,0 +1,12 @@
+# LEARNING MODE — yours to write. See docs/learning/emergency-path.md.
+# Patterns are JavaScript regular expressions matched against normalized text
+# (lowercase, accents stripped). Tune to over-trigger: a false alarm costs one
+# text message, a miss can cost a house.
+#
+# Example:
+#   - id: gas_smell_en
+#     category: gas
+#     language: en
+#     pattern: "smell(s|ing)? (of )?gas"
+version: 1
+rules: []

@@ -1,0 +1,87 @@
+{"text": "I smell gas in the kitchen", "lang": "en", "is_emergency": true, "category": "gas", "tags": []}
+{"text": "theres a strong gas smell near the stove", "lang": "en", "is_emergency": true, "category": "gas", "tags": []}
+{"text": "GAS LEAK!!!", "lang": "en", "is_emergency": true, "category": "gas", "tags": []}
+{"text": "i think the gas is leaking from the water heater", "lang": "en", "is_emergency": true, "category": "gas", "tags": []}
+{"text": "smells like rotten eggs by the furnace", "lang": "en", "is_emergency": true, "category": "gas", "tags": []}
+{"text": "i smell gass in the garage", "lang": "en", "is_emergency": true, "category": "gas", "tags": []}
+{"text": "The kitchen is on fire", "lang": "en", "is_emergency": true, "category": "fire", "tags": []}
+{"text": "FIRE\n\nIN THE GARAGE", "lang": "en", "is_emergency": true, "category": "fire", "tags": []}
+{"text": "smoke alarm is going off and I can see flames", "lang": "en", "is_emergency": true, "category": "fire", "tags": []}
+{"text": "theres smoke coming from the outlet", "lang": "en", "is_emergency": true, "tags": []}
+{"text": "there's a burning smell coming from inside the wall", "lang": "en", "is_emergency": true, "tags": []}
+{"text": "water is pouring through the ceiling", "lang": "en", "is_emergency": true, "category": "flood", "tags": []}
+{"text": "the pipe burst under the sink, water everywhere", "lang": "en", "is_emergency": true, "category": "flood", "tags": []}
+{"text": "the house is flooding", "lang": "en", "is_emergency": true, "category": "flood", "tags": []}
+{"text": "basement flooded overnight", "lang": "en", "is_emergency": true, "category": "flood", "tags": []}
+{"text": "water coming thru the ceiling in the bedroom", "lang": "en", "is_emergency": true, "category": "flood", "tags": []}
+{"text": "toilet is overflowing and wont stop", "lang": "en", "is_emergency": true, "tags": []}
+{"text": "sewage is backing up into the tub", "lang": "en", "is_emergency": true, "category": "sewage", "tags": []}
+{"text": "the outlet is sparking", "lang": "en", "is_emergency": true, "category": "electrical", "tags": []}
+{"text": "sparks came out of the breaker panel", "lang": "en", "is_emergency": true, "category": "electrical", "tags": []}
+{"text": "there are exposed wires in the hallway", "lang": "en", "is_emergency": true, "category": "electrical", "tags": []}
+{"text": "i got shocked by the light switch", "lang": "en", "is_emergency": true, "category": "electrical", "tags": []}
+{"text": "carbon monoxide alarm is beeping", "lang": "en", "is_emergency": true, "category": "carbon_monoxide", "tags": []}
+{"text": "the CO detector keeps going off", "lang": "en", "is_emergency": true, "category": "carbon_monoxide", "tags": []}
+{"text": "we have no heat and its freezing", "lang": "en", "is_emergency": true, "category": "no_heat", "tags": []}
+{"text": "heater is not working, no heat since last night", "lang": "en", "is_emergency": true, "category": "no_heat", "tags": []}
+{"text": "there is no water at all in the house", "lang": "en", "is_emergency": true, "category": "no_water", "tags": []}
+{"text": "my son fell down the stairs and is hurt", "lang": "en", "is_emergency": true, "category": "injury", "tags": []}
+{"text": "someone broke in through the back door", "lang": "en", "is_emergency": true, "category": "security", "tags": []}
+{"text": "front door lock is broken and anyone can get in", "lang": "en", "is_emergency": true, "category": "security", "tags": []}
+{"text": "Huele a gas en la cocina", "lang": "es", "is_emergency": true, "category": "gas", "tags": []}
+{"text": "hay una fuga de gas", "lang": "es", "is_emergency": true, "category": "gas", "tags": []}
+{"text": "hay olor a gas cerca de la estufa", "lang": "es", "is_emergency": true, "category": "gas", "tags": []}
+{"text": "hay un leak de gas en la kitchen", "lang": "es", "is_emergency": true, "category": "gas", "tags": []}
+{"text": "¡Hay un incendio en la cocina!", "lang": "es", "is_emergency": true, "category": "fire", "tags": []}
+{"text": "se está quemando algo, hay fuego", "lang": "es", "is_emergency": true, "category": "fire", "tags": []}
+{"text": "sale humo del enchufe", "lang": "es", "is_emergency": true, "tags": []}
+{"text": "hay mucho humo en la casa", "lang": "es", "is_emergency": true, "category": "fire", "tags": []}
+{"text": "se rompió una tubería y hay agua por todos lados", "lang": "es", "is_emergency": true, "category": "flood", "tags": []}
+{"text": "la casa se está inundando", "lang": "es", "is_emergency": true, "category": "flood", "tags": []}
+{"text": "se inundo el baño", "lang": "es", "is_emergency": true, "category": "flood", "tags": []}
+{"text": "está saliendo agua del techo", "lang": "es", "is_emergency": true, "category": "flood", "tags": []}
+{"text": "el inodoro se está desbordando", "lang": "es", "is_emergency": true, "tags": []}
+{"text": "salen aguas negras de la tina", "lang": "es", "is_emergency": true, "category": "sewage", "tags": []}
+{"text": "el enchufe echa chispas", "lang": "es", "is_emergency": true, "category": "electrical", "tags": []}
+{"text": "hay cables pelados en el pasillo", "lang": "es", "is_emergency": true, "category": "electrical", "tags": []}
+{"text": "me dio una descarga eléctrica el interruptor", "lang": "es", "is_emergency": true, "category": "electrical", "tags": []}
+{"text": "la alarma de monóxido de carbono está sonando", "lang": "es", "is_emergency": true, "category": "carbon_monoxide", "tags": []}
+{"text": "no tenemos calefacción y hace mucho frío", "lang": "es", "is_emergency": true, "category": "no_heat", "tags": []}
+{"text": "no hay agua en toda la casa", "lang": "es", "is_emergency": true, "category": "no_water", "tags": []}
+{"text": "mi hijo se cayó y está herido", "lang": "es", "is_emergency": true, "category": "injury", "tags": []}
+{"text": "alguien se metió a la casa, rompieron la puerta", "lang": "es", "is_emergency": true, "category": "security", "tags": []}
+{"text": "la cerradura está rota y no puedo cerrar la puerta", "lang": "es", "is_emergency": true, "category": "security", "tags": []}
+{"text": "Hi! Hope you're well. Quick thing about the rent receipt, can you resend it? Also btw I smell gas when I walk past the laundry room. Thanks!", "lang": "en", "is_emergency": true, "category": "gas", "tags": ["buried"]}
+{"text": "Thanks for sending the plumber last week, he was great. Unrelated but the outlet behind the TV started sparking this morning.", "lang": "en", "is_emergency": true, "category": "electrical", "tags": ["buried"]}
+{"text": "Buenas tardes, le escribo por lo de la renta. Por cierto, huele a gas en el pasillo desde ayer.", "lang": "es", "is_emergency": true, "category": "gas", "tags": ["buried"]}
+{"text": "ok thanks", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "Rent was paid this morning via Zelle", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "Can I get a copy of the lease?", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "What time is the plumber coming tomorrow?", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "The cabinet hinge is loose again", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "Is it ok if my sister stays for the weekend?", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "the lightbulb in the hallway is out", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "Can we paint the bedroom?", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "the sparkling water delivery came, thanks", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "the grass needs cutting", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "   ", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "👍", "lang": "en", "is_emergency": false, "tags": ["clear"]}
+{"text": "gracias, todo bien", "lang": "es", "is_emergency": false, "tags": ["clear"]}
+{"text": "¿Puedo pagar la renta el viernes?", "lang": "es", "is_emergency": false, "tags": ["clear"]}
+{"text": "La puerta del gabinete está floja", "lang": "es", "is_emergency": false, "tags": ["clear"]}
+{"text": "El foco del pasillo se fundió", "lang": "es", "is_emergency": false, "tags": ["clear"]}
+{"text": "Tuve un gasto inesperado este mes", "lang": "es", "is_emergency": false, "tags": ["clear"]}
+{"text": "the gas bill seems high this month", "lang": "en", "is_emergency": false, "tags": ["ambiguous"]}
+{"text": "can you fire the gardener, he never shows up", "lang": "en", "is_emergency": false, "tags": ["ambiguous"]}
+{"text": "the fireplace looks great, thanks for cleaning it", "lang": "en", "is_emergency": false, "tags": ["ambiguous"]}
+{"text": "smoke detector battery is chirping, needs a new battery", "lang": "en", "is_emergency": false, "tags": ["ambiguous"]}
+{"text": "no hot water this morning", "lang": "en", "is_emergency": false, "tags": ["ambiguous"]}
+{"text": "the faucet is dripping a little", "lang": "en", "is_emergency": false, "tags": ["ambiguous"]}
+{"text": "I overwatered the plants and flooded the planter a bit lol", "lang": "en", "is_emergency": false, "tags": ["ambiguous"]}
+{"text": "the gas stove igniter clicks but it works", "lang": "en", "is_emergency": false, "tags": ["ambiguous"]}
+{"text": "thanks for fixing the heater, we have heat now", "lang": "en", "is_emergency": false, "tags": ["ambiguous"]}
+{"text": "la factura del gas llegó muy alta", "lang": "es", "is_emergency": false, "tags": ["ambiguous"]}
+{"text": "la estufa de gas funciona bien ahora, gracias", "lang": "es", "is_emergency": false, "tags": ["ambiguous"]}
+{"text": "ya tenemos agua otra vez, gracias", "lang": "es", "is_emergency": false, "tags": ["ambiguous"]}
+{"text": "el detector de humo necesita pilas", "lang": "es", "is_emergency": false, "tags": ["ambiguous"]}

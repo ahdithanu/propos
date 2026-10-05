@@ -1,0 +1,11 @@
+language: es
+templates:
+  ack_received:
+    vars: [first_name]
+    body: "Hola {{first_name}}, recibimos su mensaje y lo estamos revisando. Le daremos seguimiento pronto."
+  request_more_info:
+    vars: [first_name, question]
+    body: "Hola {{first_name}}, gracias por avisarnos. Una pregunta para enviar a la persona correcta: {{question}}"
+  emergency_safety:
+    vars: []
+    body: "Si alguien está en peligro, llame al 911 ahora. Si huele a gas, salga de la casa antes de llamar. El propietario ha sido avisado y se comunicará con usted pronto."
