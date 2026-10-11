@@ -19,6 +19,8 @@ export interface ToolContext {
   scopeContact?: Contact;
   runId?: string;
   eventId?: string;
+  /** Set when this run is redrafting an action the owner asked to change. */
+  parentActionId?: string;
   /** The only way a tool may message a contact. */
   deliver: (req: DeliverRequest) => Promise<DeliverResult>;
   /** Marks the rest of this run as needing owner review. Cannot be undone. */
@@ -189,7 +191,8 @@ export class ToolRegistry {
       runId: ctx.runId,
     });
 
-    const idempotencyKey = `${runKey}:${tool.name}:${sha256(stableStringify(args)).slice(0, 16)}`;
+    // Keyed on the event, not the run, so re-running an event cannot repeat an identical action.
+    const idempotencyKey = `${ctx.eventId ?? runKey}:${tool.name}:${sha256(stableStringify(args)).slice(0, 16)}`;
 
     // Reads and record-keeping at Tier 0 run inline. Anything with an outside
     // effect, or anything the policy raised, goes through the outbox.

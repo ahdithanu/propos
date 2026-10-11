@@ -1,8 +1,8 @@
 import { randomUUID } from "node:crypto";
-import type { NewAction, NewEvent, NewMessage, Store } from "./store";
+import { ApprovalCodeTaken, type NewAction, type NewEvent, type NewMessage, type Store } from "./store";
 import {
   OPEN_CODE_STATUSES,
-  type Action, type ActionStatus, type Approval, type AuditEntry, type Channel, type Contact,
+  type Action, type ActionStatus, type AgentRun, type AgentStep, type Approval, type MemoryFact, type MemoryScope, type AuditEntry, type Channel, type Contact,
   type EventStatus, type HarnessEvent, type Lease, type MaintenanceRequest, type Message,
   type Owner, type SystemState, type Tenant, type Vendor,
 } from "./types";
@@ -14,6 +14,7 @@ export interface MemorySeed {
   leases?: Lease[];
   vendors?: Vendor[];
   requests?: MaintenanceRequest[];
+  memoryFacts?: MemoryFact[];
 }
 
 /** In-memory Store for unit tests and evals. Public arrays are there for assertions. */
@@ -34,6 +35,10 @@ export class MemoryStore implements Store {
   calendarEvents: { id: string; providerEventId: string; requestId?: string; startsAt: Date }[] = [];
   requestHistory: { requestId: string; from?: string; to: string; actor: string; at: Date }[] = [];
   state: SystemState = { paused: false };
+  runs: AgentRun[] = [];
+  steps: AgentStep[] = [];
+  memoryFacts: MemoryFact[] = [];
+  deadLetters: { jobName: string; eventId?: string; error: string; attempts: number }[] = [];
 
   constructor(seed: MemorySeed) {
     this.owner = seed.owner;
@@ -42,6 +47,45 @@ export class MemoryStore implements Store {
     this.leases = [...(seed.leases ?? [])];
     this.vendors = [...(seed.vendors ?? [])];
     this.requests = [...(seed.requests ?? [])];
+    this.memoryFacts = [...(seed.memoryFacts ?? [])];
+  }
+
+  async createRun(r: Omit<AgentRun, "id" | "status" | "steps" | "inputTokens" | "outputTokens" | "costUsd">) {
+    const run: AgentRun = { ...r, id: randomUUID(), status: "running", steps: 0, inputTokens: 0, outputTokens: 0, costUsd: 0 };
+    this.runs.push(run);
+    return run;
+  }
+  async appendStep(step: AgentStep) {
+    if (this.steps.some((s) => s.runId === step.runId && s.idx === step.idx)) {
+      throw new Error(`step ${step.idx} already exists for run ${step.runId}`);
+    }
+    this.steps.push(step);
+  }
+  async finishRun(id: string, result: Partial<AgentRun>) {
+    const run = this.runs.find((r) => r.id === id);
+    if (!run) throw new Error(`run not found: ${id}`);
+    Object.assign(run, result, { status: "finished" });
+  }
+  async getRun(id: string) { return this.runs.find((r) => r.id === id) ?? null; }
+  async listSteps(runId: string) {
+    return this.steps.filter((s) => s.runId === runId).sort((a, b) => a.idx - b.idx);
+  }
+  async sumRunCostSince(since: Date) {
+    return this.runs.filter((r) => r.startedAt >= since).reduce((sum, r) => sum + r.costUsd, 0);
+  }
+  async listEventsByStatus(status: EventStatus, olderThan: Date) {
+    return this.events.filter((e) => e.status === status && e.receivedAt < olderThan);
+  }
+  async insertDeadLetter(d: { jobName: string; eventId?: string; error: string; attempts: number }) {
+    this.deadLetters.push(d);
+  }
+  async listMemoryFacts(scope: MemoryScope, subjectId: string, status: MemoryFact["status"]) {
+    return this.memoryFacts.filter((f) => f.scope === scope && f.subjectId === subjectId && f.status === status);
+  }
+  async insertMemoryFact(f: Omit<MemoryFact, "id">) {
+    const fact: MemoryFact = { ...f, id: randomUUID() };
+    this.memoryFacts.push(fact);
+    return fact;
   }
 
   async getOwner() { return this.owner; }
@@ -108,7 +152,7 @@ export class MemoryStore implements Store {
     if (existing) return { action: existing, inserted: false };
     if (a.approvalCode && OPEN_CODE_STATUSES.includes(a.status)) {
       const clash = await this.findOpenActionByCode(a.approvalCode);
-      if (clash) throw new Error(`approval code ${a.approvalCode} is already open`);
+      if (clash) throw new ApprovalCodeTaken(a.approvalCode);
     }
     const action: Action = { ...a, id: randomUUID() };
     this.actions.push(action);

@@ -13,6 +13,8 @@ export interface InboundMessage {
   from: string;
   body: string;
   headers?: Record<string, string>;
+  /** Set by the route handler after it has verified the provider's signature. */
+  signatureValid?: boolean;
 }
 
 export interface IngestDeps {
@@ -49,7 +51,7 @@ export async function ingestInbound(deps: IngestDeps, msg: InboundMessage): Prom
     source: msg.source,
     externalId: msg.externalId,
     contactId: contact?.id,
-    payload: { from: msg.from, body: msg.body, headers: msg.headers ?? {} },
+    payload: { from: msg.from, body: msg.body, headers: msg.headers ?? {}, signatureValid: msg.signatureValid === true },
     receivedAt: now,
   });
   if (!inserted) return { status: "duplicate", event };
@@ -75,9 +77,13 @@ export async function ingestInbound(deps: IngestDeps, msg: InboundMessage): Prom
   if (contact) {
     const threadId = await store.getOrCreateThread(msg.channel, contact.id);
     const history = await store.listThreadMessages(threadId);
-    verdict = checkLoop(
-      { body: msg.body, isAutoReply: autoReply }, history, deps.getPolicy().rate_limits.thread_velocity, now,
-    );
+    // The owner legitimately repeats short commands (STATUS, Y-1234), so only
+    // the auto-reply check applies to the owner's own thread.
+    if (contact.id !== (await store.getOwner()).contactId) {
+      verdict = checkLoop(
+        { body: msg.body, isAutoReply: autoReply }, history, deps.getPolicy().rate_limits.thread_velocity, now,
+      );
+    }
     await store.insertMessage({
       threadId, eventId: event.id, direction: "inbound", channel: msg.channel, contactId: contact.id,
       body: msg.body, redactedBody: redact(msg.body), providerId: msg.externalId, isAutoReply: autoReply,
@@ -94,7 +100,17 @@ export async function ingestInbound(deps: IngestDeps, msg: InboundMessage): Prom
     return { status: "suppressed", event, reason: verdict.reason, emergency };
   }
 
-  await deps.enqueue(event.id);
+  // Mark first, then enqueue: the worker only picks up `queued` events. If the
+  // enqueue fails the event goes back to `received`, where the sweeper finds it.
   await store.setEventStatus(event.id, "queued");
+  try {
+    await deps.enqueue(event.id);
+  } catch (err) {
+    await store.setEventStatus(event.id, "received");
+    await store.audit({
+      at: now, actor: "system", action: "event.enqueue_failed", entity: "event", entityId: event.id,
+      details: { error: redact((err as Error).message) },
+    });
+  }
   return { status: "queued", event, emergency };
 }

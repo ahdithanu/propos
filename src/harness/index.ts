@@ -33,11 +33,14 @@ export function createHarness(deps: HarnessDeps) {
   lookup.registry = registry;
 
   /** Context for one run, scoped to the contact whose event triggered it. */
-  const contextFor = (scope: { contact?: Contact; runId?: string; eventId?: string }): Omit<ToolContext, "requestReview"> => {
+  const contextFor = (
+    scope: { contact?: Contact; runId?: string; eventId?: string; parentActionId?: string },
+  ): Omit<ToolContext, "requestReview"> => {
     const policy = getPolicy();
     return {
       store: deps.store, ports: deps.ports, policy, templates: deps.loaded.templates, now: deps.now,
       scopeContact: scope.contact, runId: scope.runId, eventId: scope.eventId,
+      parentActionId: scope.parentActionId,
       deliver: (req) => deliver({ store: deps.store, ports: deps.ports, policy, now: deps.now }, req),
     };
   };

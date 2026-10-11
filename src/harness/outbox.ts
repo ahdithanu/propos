@@ -7,7 +7,7 @@ import {
   DeliveryBlocked, ToolTimeout, reasonStrings, withTimeout,
   type ActionSink, type SubmitInput, type ToolCallResult, type ToolContext, type ToolDef,
 } from "./registry";
-import type { Store } from "./store";
+import { ApprovalCodeTaken, type Store } from "./store";
 import type { Action } from "./types";
 
 export interface OutboxDeps {
@@ -59,6 +59,7 @@ export class Outbox implements ActionSink {
     const base = {
       runId: ctx.runId,
       scopeContactId: ctx.scopeContact?.id,
+      parentActionId: ctx.parentActionId,
       toolName: tool.name,
       args,
       summary,
@@ -69,19 +70,30 @@ export class Outbox implements ActionSink {
     } satisfies Partial<Action>;
 
     const needsCode = decision.tier === 1 || decision.tier === 2;
-    const openCodes = new Set(
-      (await store.listActions({ status: ["held", "pending_approval"] })).flatMap((a) => a.approvalCode ?? []),
-    );
-    const code = needsCode ? generateApprovalCode(openCodes, this.deps.random ?? Math.random) : undefined;
-
     const status = (["approved", "held", "pending_approval", "refused"] as const)[decision.tier];
-    const { action, inserted } = await store.insertAction({
-      ...base,
-      status,
-      approvalCode: code,
-      sendAt: decision.tier === 1 ? new Date(at.getTime() + policy.undo_window_minutes * MINUTE_MS) : undefined,
-      codeExpiresAt: decision.tier === 2 ? new Date(at.getTime() + policy.approvals.code_ttl_hours * HOUR_MS) : undefined,
-    });
+
+    // Pick a code no open action is using. Two submissions can race for the same
+    // code; the store rejects the loser, which simply draws again.
+    let code: string | undefined;
+    let action: Action | undefined;
+    let inserted = false;
+    for (let attempt = 0; !action; attempt++) {
+      const openCodes = new Set(
+        (await store.listActions({ status: ["held", "pending_approval"] })).flatMap((a) => a.approvalCode ?? []),
+      );
+      code = needsCode ? generateApprovalCode(openCodes, this.deps.random ?? Math.random) : undefined;
+      try {
+        ({ action, inserted } = await store.insertAction({
+          ...base,
+          status,
+          approvalCode: code,
+          sendAt: decision.tier === 1 ? new Date(at.getTime() + policy.undo_window_minutes * MINUTE_MS) : undefined,
+          codeExpiresAt: decision.tier === 2 ? new Date(at.getTime() + policy.approvals.code_ttl_hours * HOUR_MS) : undefined,
+        }));
+      } catch (err) {
+        if (!(err instanceof ApprovalCodeTaken) || attempt >= 4) throw err;
+      }
+    }
 
     // The same call repeated within a run: report the existing action, send nothing new.
     if (!inserted) return this.describe(action, "This exact action was already submitted in this run.");

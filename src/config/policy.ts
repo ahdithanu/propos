@@ -39,6 +39,7 @@ export const policySchema = z.strictObject({
       window_minutes: positiveInt,
     }),
   }),
+  context: z.strictObject({ thread_messages: positiveInt }),
   emergency: z.strictObject({
     cooldown_minutes: positiveInt,
     send_attempts: positiveInt,

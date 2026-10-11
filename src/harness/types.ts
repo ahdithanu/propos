@@ -166,3 +166,56 @@ export interface Lease {
   graceDays: number;
   status: "draft" | "active" | "ended";
 }
+
+export type RunOutcomeKind = "completed" | "escalated" | "failed" | "capped";
+
+export interface AgentRun {
+  id: string;
+  eventId: string;
+  promptName: string;
+  promptVersion: number;
+  policyHash: string;
+  model: string;
+  status: "running" | "finished";
+  outcome?: RunOutcomeKind;
+  escalationReason?: string;
+  summary?: string;
+  steps: number;
+  inputTokens: number;
+  outputTokens: number;
+  costUsd: number;
+  latencyMs?: number;
+  startedAt: Date;
+  finishedAt?: Date;
+}
+
+export interface AgentStep {
+  runId: string;
+  idx: number;
+  type: "thought" | "tool_call" | "tool_result" | "final";
+  toolName?: string;
+  /** Redacted before it is stored. */
+  input?: unknown;
+  output?: unknown;
+  effectiveTier?: Tier;
+  tierReasons?: string[];
+  durationMs?: number;
+  inputTokens?: number;
+  outputTokens?: number;
+  createdAt: Date;
+}
+
+export type MemoryScope = "tenant" | "property" | "vendor";
+
+export interface MemoryFact {
+  id: string;
+  scope: MemoryScope;
+  subjectId: string;
+  category: string;
+  fact: string;
+  sourceRunId?: string;
+  /** Only "active" facts are ever loaded into agent context. */
+  status: "proposed" | "active" | "rejected" | "archived";
+  ownerEdited: boolean;
+  createdAt: Date;
+}

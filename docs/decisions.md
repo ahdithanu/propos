@@ -8,7 +8,7 @@ Where this file and `design.md` disagree, this file wins. Newest at the bottom.
 |---|---|---|
 | 0 | Scaffold, schema with RLS, seed, loaders, CI | done |
 | 1a | Learning-mode interfaces and failing tests (policy engine, emergency path, approval parser), then the deterministic harness around them | built; waiting on the owner's three implementations |
-| 1b | Agent loop, Inngest wiring, memory tool, degraded mode, spend cap, integration tests | |
+| 1b | Agent loop, Postgres store, Inngest wiring, memory tools, degraded mode, spend cap, integration tests | built; integration suite red until the owner's three implementations exist |
 | 2 | Evals v1 | |
 | 3 | Maintenance module | |
 | 4 | Dashboard | |
@@ -106,3 +106,50 @@ messages. Blocked actions become `blocked_paused` and are not sent automatically
 The three failing suites were run once against a throwaway reference implementation kept outside
 the repo, to confirm they are satisfiable and not contradictory (252 of 252 passed). The reference
 was then removed; the repo holds only stubs.
+
+## D19. Phase 1b went ahead before the learning-mode review
+The owner said "keep going" while the three learning-mode pieces were still stubs. Phase 1b was
+built without them: every 1b unit test uses a stand-in policy evaluator, and the pieces are
+injected into the pipeline rather than imported by it. The end-to-end suite
+(`npm run test:integration`) uses the real modules and is red until they are written. Like the
+learning suites, it was validated once against a throwaway reference kept outside the repo (15 of 15).
+
+## D20. The agent loop is hand-written, behind a model port
+The loop needs per-step persistence, four caps, tier-aware tool results and a scripted model for
+tests and evals, so it does not use the SDK's tool runner. `LlmPort` has two implementations:
+`AnthropicLlm` and `MockLlm`. The agent model is `claude-sonnet-5-5` (the design asked for Sonnet),
+with adaptive thinking, medium effort, prompt caching on the system prompt and tool list, and the
+API's default refusal fallback.
+
+## D21. The model ends a run by calling `finish`
+`finish { outcome, summary, escalation_reason? }` is validated with Zod. A plain final answer with
+no tool call is accepted as `completed`. The harness, not the model, decides `capped` and `failed`.
+
+## D22. What the model is shown
+First names and contact ids only. Message bodies are passed through the redactor, so a phone number
+the tenant types is replaced before the model sees it. Untrusted text is wrapped and every line is
+prefixed with `>` so it cannot forge a section heading such as "Owner instruction". Only `active`
+memory facts are included.
+
+## D23. Degraded mode
+When the daily model budget is spent (rolling 24 hours) or the model is unreachable before anything
+has been sent: the sender gets the standard acknowledgement template, the owner is told to handle it
+by hand, and no model is called. If the model drops out after something was already sent, the run
+stops and the owner is told, with no second acknowledgement. Emergency rules run earlier in the
+webhook and are unaffected.
+
+## D24. One action per event and identical arguments
+Action idempotency keys are derived from the event id, the tool and the arguments. Re-running an
+event cannot repeat an identical action. It can still produce a different one if the model words
+it differently.
+
+## D25. Queue semantics
+The worker only processes events in status `queued`. Ingest marks an event `queued` and then
+enqueues; if the enqueue fails it goes back to `received`. A once-a-minute tick re-queues events
+stuck in `received` for two minutes, releases held actions and expires approvals. Inngest functions
+hold retries, per-sender concurrency of one, and dead-lettering; behaviour lives in
+`src/harness/pipeline.ts`, which has no framework imports.
+
+## D26. No real outbound adapters yet
+`src/runtime.ts` wires recording mocks for SMS, email and calendar, and treats any mode other than
+`test` as staging. Deploying this would receive messages and send none. Real adapters are Phase 5.

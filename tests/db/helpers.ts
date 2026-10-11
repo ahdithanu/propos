@@ -50,3 +50,13 @@ export async function publicTables(db: Client): Promise<string[]> {
   );
   return rows.map((r) => r.tablename);
 }
+
+/** The seed's fixed ids (supabase/seed.sql). */
+export const SEED = {
+  ownerContactId: "00000000-0000-4000-8000-000000000010", ownerPhone: "+14085550100",
+  tenantContactId: "00000000-0000-4000-8000-000000000011", tenantPhone: "+14085550111",
+  tenantEmail: "maria.alvarez@example.com",
+  tenantId: "00000000-0000-4000-8000-000000000200", propertyId: "00000000-0000-4000-8000-000000000100",
+  plumberVendorId: "00000000-0000-4000-8000-000000000401",
+};
+

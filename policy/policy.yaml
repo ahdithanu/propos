@@ -5,7 +5,7 @@ version: 1
 
 models:
   agent: claude-sonnet-5-5
-  classifier: claude-haiku-4-5-20251001
+  classifier: claude-haiku-5-5
 
 # Agent loop caps. A breach ends the run with outcome=capped and alerts the owner.
 caps:
@@ -41,6 +41,10 @@ rate_limits:
   thread_velocity:
     max_agent_messages: 3
     window_minutes: 30
+
+context:
+  # How many recent messages on the thread the agent is shown.
+  thread_messages: 10
 
 emergency:
   # Do not repeat the safety reply to the same contact within this window.

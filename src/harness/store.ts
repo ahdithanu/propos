@@ -1,5 +1,5 @@
 import type {
-  Action, ActionStatus, Approval, AuditEntry, Channel, Contact, EventSource, EventStatus,
+  Action, ActionStatus, AgentRun, AgentStep, Approval, AuditEntry, MemoryFact, MemoryScope, Channel, Contact, EventSource, EventStatus,
   HarnessEvent, Lease, MaintenanceRequest, Message, Owner, SystemState, Tenant, Vendor,
 } from "./types";
 
@@ -10,6 +10,13 @@ export interface NewEvent {
   contactId?: string;
   payload: Record<string, unknown>;
   receivedAt: Date;
+}
+
+/** Thrown by insertAction when another open action already holds the approval code. */
+export class ApprovalCodeTaken extends Error {
+  constructor(code: string) {
+    super(`approval code ${code} is already open`);
+  }
 }
 
 export type NewMessage = Omit<Message, "id">;
@@ -63,6 +70,26 @@ export interface Store {
   ): Promise<Action | null>;
   insertApproval(a: Approval): Promise<void>;
   listApprovals(actionId: string): Promise<Approval[]>;
+
+  // Agent runs
+  createRun(r: Omit<AgentRun, "id" | "status" | "steps" | "inputTokens" | "outputTokens" | "costUsd">): Promise<AgentRun>;
+  /** Append-only. */
+  appendStep(step: AgentStep): Promise<void>;
+  finishRun(
+    id: string,
+    result: Pick<AgentRun, "outcome" | "escalationReason" | "summary" | "steps" | "inputTokens" | "outputTokens" | "costUsd" | "latencyMs" | "finishedAt">,
+  ): Promise<void>;
+  getRun(id: string): Promise<AgentRun | null>;
+  listSteps(runId: string): Promise<AgentStep[]>;
+  /** Total model spend for runs started at or after `since`. Drives the daily cap. */
+  sumRunCostSince(since: Date): Promise<number>;
+  /** Events still in `status` that were received before `olderThan`. For the sweeper. */
+  listEventsByStatus(status: EventStatus, olderThan: Date): Promise<HarnessEvent[]>;
+  insertDeadLetter(d: { jobName: string; eventId?: string; error: string; attempts: number }): Promise<void>;
+
+  // Memory
+  listMemoryFacts(scope: MemoryScope, subjectId: string, status: MemoryFact["status"]): Promise<MemoryFact[]>;
+  insertMemoryFact(f: Omit<MemoryFact, "id">): Promise<MemoryFact>;
 
   // Control plane
   getSystemState(): Promise<SystemState>;

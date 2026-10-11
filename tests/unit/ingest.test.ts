@@ -85,3 +85,25 @@ describe("ingestInbound", () => {
     expect(h.store.messages).toHaveLength(0);
   });
 });
+
+describe("when the queue is down", () => {
+  it("leaves the event for the sweeper instead of losing it or failing the webhook", async () => {
+    const h = setup();
+    h.deps.enqueue = async () => { throw new Error("queue unreachable"); };
+    const result = await ingestInbound(h.deps, sms("SM1", "the sink is dripping"));
+    expect(result.status).toBe("queued");
+    expect(h.store.events[0]!.status).toBe("received");
+    expect(h.store.auditLog.some((a) => a.action === "event.enqueue_failed")).toBe(true);
+  });
+});
+
+describe("the owner's own thread", () => {
+  it("is not subject to repeated-message suppression", async () => {
+    const h = setup();
+    const statuses = [];
+    for (const id of ["SM1", "SM2", "SM3", "SM4"]) {
+      statuses.push((await ingestInbound(h.deps, sms(id, "STATUS", CONTACTS.owner.phone))).status);
+    }
+    expect(statuses).toEqual(["queued", "queued", "queued", "queued"]);
+  });
+});

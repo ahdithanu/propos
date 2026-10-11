@@ -3,7 +3,7 @@
 An agent harness that handles tenant and vendor communication for one owner and
 one California rental house. The owner approves anything that matters by text.
 
-Status: Phase 1a. The harness runs on mock adapters and an in-memory store; nothing sends real messages. See `docs/decisions.md`
+Status: Phase 1b. The agent loop, Postgres store and queue wiring exist; outbound adapters are still mocks, so nothing sends real messages. See `docs/decisions.md`
 for the phase plan and `docs/design.md` for the design.
 
 ## Run it

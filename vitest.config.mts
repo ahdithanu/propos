@@ -17,6 +17,12 @@ export default defineConfig({
         test: { name: "learning", include: ["tests/learning/**/*.test.ts"] },
       },
       {
+        // Webhook -> agent -> approval, end to end on mocks, using the owner's
+        // real learning-mode implementations. Red until those exist.
+        resolve: { alias },
+        test: { name: "integration", include: ["tests/integration/**/*.test.ts"] },
+      },
+      {
         // Needs `npm run db:start` (local Supabase) and a freshly reset database.
         resolve: { alias },
         test: {

@@ -51,3 +51,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:learning
+      # End-to-end on mocks; depends on the same three implementations.
+      - run: npm run test:integration
