@@ -9,6 +9,8 @@ is `docs/design.md`; where this repo differs from it, `docs/decisions.md` wins.
 - `npm test` — unit tests, no services needed
 - `npm run test:learning` — the owner's three learning-mode suites (red until implemented)
 - `npm run test:integration` — webhook to agent to approval on mocks (red until the same three exist)
+- `npm run evals:ci` — eval gates on scripted models (free; red until the same three exist)
+- `npm run evals -- --model claude-sonnet-5-5` — live-model evals. Costs money: ask the owner first.
 - `npm run db:start` then `npm run test:db` — database tests against local Supabase
 - `npm run db:reset` — reapply all migrations and the seed
 

@@ -5,6 +5,11 @@ import { WRITE_TIMEOUT_MS, scopeProperty } from "./shared";
 // Record-keeping tools change internal rows only. Nothing leaves the system.
 
 const urgency = z.enum(["emergency", "urgent", "routine", "cosmetic"]);
+/** Fixed list, so triage can be scored and vendors matched by trade. */
+export const REQUEST_CATEGORIES = [
+  "plumbing", "electrical", "hvac", "appliance", "gas", "pest", "structural", "security", "general",
+] as const;
+const category = z.enum(REQUEST_CATEGORIES);
 const status = z.enum([
   "new", "info_needed", "vendor_requested", "quoted", "scheduled", "in_progress", "done", "closed", "cancelled",
 ]);
@@ -16,7 +21,7 @@ export const createMaintenanceRequest = defineTool({
   baseTier: 0,
   input: z.strictObject({
     title: z.string().min(3).max(120),
-    category: z.string().min(2).max(40),
+    category,
     urgency,
     urgency_reason: z.string().min(3).max(300),
     missing_info: z.array(z.string().min(1).max(200)).max(8).default([]),

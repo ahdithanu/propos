@@ -1,0 +1,72 @@
+{"id": "c001", "channel": "sms", "lang": "en", "text": "The kitchen faucet has been dripping for a couple days", "expected_category": "plumbing", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c002", "channel": "sms", "lang": "en", "text": "toilet keeps running after you flush", "expected_category": "plumbing", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c003", "channel": "sms", "lang": "en", "text": "garbage disposal is jammed, it just hums", "expected_category": "appliance", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c004", "channel": "sms", "lang": "en", "text": "dishwasher isnt draining, water sitting at the bottom", "expected_category": "appliance", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c005", "channel": "sms", "lang": "en", "text": "The fridge stopped cooling, food is going bad", "expected_category": "appliance", "expected_urgency": "urgent", "is_emergency": false, "tags": []}
+{"id": "c006", "channel": "sms", "lang": "en", "text": "AC is blowing warm air and its 98 out", "expected_category": "hvac", "expected_urgency": "urgent", "is_emergency": false, "tags": []}
+{"id": "c007", "channel": "sms", "lang": "en", "text": "one of the bedroom outlets doesnt work", "expected_category": "electrical", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c008", "channel": "sms", "lang": "en", "text": "the hallway light flickers sometimes", "expected_category": "electrical", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c009", "channel": "sms", "lang": "en", "text": "there are ants all over the kitchen counter", "expected_category": "pest", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c010", "channel": "sms", "lang": "en", "text": "I think we have mice, found droppings in the pantry", "expected_category": "pest", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c011", "channel": "sms", "lang": "en", "text": "closet door came off its track", "expected_category": "general", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c012", "channel": "sms", "lang": "en", "text": "paint is peeling on the bathroom ceiling", "expected_category": "general", "expected_urgency": "cosmetic", "is_emergency": false, "tags": []}
+{"id": "c013", "channel": "sms", "lang": "en", "text": "a cabinet handle fell off", "expected_category": "general", "expected_urgency": "cosmetic", "is_emergency": false, "tags": []}
+{"id": "c014", "channel": "sms", "lang": "en", "text": "water heater is making a banging noise but we still have hot water", "expected_category": "plumbing", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c015", "channel": "sms", "lang": "en", "text": "no hot water since this morning", "expected_category": "plumbing", "expected_urgency": "urgent", "is_emergency": false, "tags": []}
+{"id": "c016", "channel": "sms", "lang": "en", "text": "the bathroom sink is completely clogged", "expected_category": "plumbing", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c017", "channel": "sms", "lang": "en", "text": "the oven wont heat up", "expected_category": "appliance", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c018", "channel": "sms", "lang": "en", "text": "theres a water stain growing on the ceiling under the upstairs bathroom", "expected_category": "plumbing", "expected_urgency": "urgent", "is_emergency": false, "tags": []}
+{"id": "c019", "channel": "sms", "lang": "en", "text": "roof is leaking into the attic when it rains", "expected_category": "structural", "expected_urgency": "urgent", "is_emergency": false, "tags": []}
+{"id": "c020", "channel": "sms", "lang": "en", "text": "garage door wont open, my car is stuck inside", "expected_category": "general", "expected_urgency": "urgent", "is_emergency": false, "tags": []}
+{"id": "c021", "channel": "sms", "lang": "en", "text": "thermostat screen is blank", "expected_category": "hvac", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c022", "channel": "sms", "lang": "en", "text": "wasps nest by the front door", "expected_category": "pest", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c023", "channel": "sms", "lang": "en", "text": "the thing under the sink is leaking again", "expected_category": "plumbing", "expected_urgency": "routine", "is_emergency": false, "tags": ["vague"]}
+{"id": "c024", "channel": "sms", "lang": "en", "text": "something is wrong with the bathroom", "expected_category": "any", "expected_urgency": "routine", "is_emergency": false, "tags": ["vague"]}
+{"id": "c025", "channel": "sms", "lang": "en", "text": "it's broken again", "expected_category": "any", "expected_urgency": "routine", "is_emergency": false, "tags": ["vague"]}
+{"id": "c026", "channel": "sms", "lang": "en", "text": "THIS IS THE THIRD TIME IM TELLING YOU THE HEATER IS BROKEN. FIX IT OR IM CALLING A LAWYER", "expected_category": "hvac", "expected_urgency": "urgent", "is_emergency": false, "tags": ["angry", "legal"]}
+{"id": "c027", "channel": "sms", "lang": "en", "text": "I smell gas in the kitchen", "expected_category": "gas", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c028", "channel": "sms", "lang": "en", "text": "water is pouring through the ceiling", "expected_category": "plumbing", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c029", "channel": "sms", "lang": "en", "text": "the outlet is sparking and smells like burning", "expected_category": "electrical", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c030", "channel": "sms", "lang": "en", "text": "theres a fire in the kitchen", "expected_category": "any", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c031", "channel": "sms", "lang": "en", "text": "carbon monoxide alarm is going off", "expected_category": "any", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c032", "channel": "sms", "lang": "en", "text": "no heat and its 30 degrees, we have a baby", "expected_category": "hvac", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c033", "channel": "sms", "lang": "en", "text": "sewage is coming up in the shower", "expected_category": "plumbing", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c034", "channel": "sms", "lang": "en", "text": "someone kicked in the back door last night and it wont close", "expected_category": "security", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c035", "channel": "sms", "lang": "en", "text": "pipe burst under the sink water everywhere", "expected_category": "plumbing", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c036", "channel": "sms", "lang": "en", "text": "Hi, hope you're well! Quick question about parking. Also there's a strong gas smell by the water heater.", "expected_category": "gas", "expected_urgency": "emergency", "is_emergency": true, "tags": ["buried"]}
+{"id": "c037", "channel": "sms", "lang": "en", "text": "thanks for the receipt. btw the breaker panel is sparking when the dryer runs", "expected_category": "electrical", "expected_urgency": "emergency", "is_emergency": true, "tags": ["buried"]}
+{"id": "c038", "channel": "sms", "lang": "es", "text": "La llave de la cocina gotea", "expected_category": "plumbing", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c039", "channel": "sms", "lang": "es", "text": "El inodoro está tapado y es el único baño", "expected_category": "plumbing", "expected_urgency": "urgent", "is_emergency": false, "tags": []}
+{"id": "c040", "channel": "sms", "lang": "es", "text": "No enfría el refrigerador y se está echando a perder la comida", "expected_category": "appliance", "expected_urgency": "urgent", "is_emergency": false, "tags": []}
+{"id": "c041", "channel": "sms", "lang": "es", "text": "El aire acondicionado hace un ruido raro pero sí enfría", "expected_category": "hvac", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c042", "channel": "sms", "lang": "es", "text": "Hay cucarachas en la cocina", "expected_category": "pest", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c043", "channel": "sms", "lang": "es", "text": "Se fue la luz en la mitad de la casa", "expected_category": "electrical", "expected_urgency": "urgent", "is_emergency": false, "tags": []}
+{"id": "c044", "channel": "sms", "lang": "es", "text": "La puerta del clóset se salió del riel", "expected_category": "general", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c045", "channel": "sms", "lang": "es", "text": "La pintura del baño se está pelando", "expected_category": "general", "expected_urgency": "cosmetic", "is_emergency": false, "tags": []}
+{"id": "c046", "channel": "sms", "lang": "es", "text": "La lavadora no desagua", "expected_category": "appliance", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c047", "channel": "sms", "lang": "es", "text": "Huele a gas en la cocina", "expected_category": "gas", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c048", "channel": "sms", "lang": "es", "text": "Se rompió una tubería y se está inundando el baño", "expected_category": "plumbing", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c049", "channel": "sms", "lang": "es", "text": "El enchufe echa chispas", "expected_category": "electrical", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c050", "channel": "sms", "lang": "es", "text": "No tenemos calefacción y hace mucho frío, mi mamá está enferma", "expected_category": "hvac", "expected_urgency": "emergency", "is_emergency": true, "tags": []}
+{"id": "c051", "channel": "sms", "lang": "es", "text": "Buenas tardes, una pregunta sobre la renta. Ah, y sale humo del enchufe de la sala.", "expected_category": "electrical", "expected_urgency": "emergency", "is_emergency": true, "tags": ["buried"]}
+{"id": "c052", "channel": "sms", "lang": "en", "text": "Can I pay rent on the 5th this month?", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": ["rent_question"]}
+{"id": "c053", "channel": "sms", "lang": "en", "text": "When does my lease end?", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": ["lease_question"]}
+{"id": "c054", "channel": "sms", "lang": "en", "text": "Is it ok if I get a cat?", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": ["lease_question"]}
+{"id": "c055", "channel": "sms", "lang": "en", "text": "Thanks so much, the plumber fixed it!", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": []}
+{"id": "c056", "channel": "sms", "lang": "en", "text": "ok", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": []}
+{"id": "c057", "channel": "sms", "lang": "en", "text": "Can my brother park in the driveway for a week?", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": []}
+{"id": "c058", "channel": "sms", "lang": "en", "text": "I'm going to be out of town next week, just fyi", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": []}
+{"id": "c059", "channel": "sms", "lang": "en", "text": "I want my deposit back, you have 21 days", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": ["legal", "angry"]}
+{"id": "c060", "channel": "sms", "lang": "en", "text": "can you send me a copy of the lease", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": ["lease_question"]}
+{"id": "c061", "channel": "sms", "lang": "en", "text": "Wrong number sorry", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": []}
+{"id": "c062", "channel": "sms", "lang": "es", "text": "¿Puedo pagar la renta el viernes?", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": ["rent_question"]}
+{"id": "c063", "channel": "sms", "lang": "es", "text": "Gracias, todo bien", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": []}
+{"id": "c064", "channel": "sms", "lang": "en", "text": "Congratulations! You've won a $1000 gift card. Reply YES to claim", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": ["spam"]}
+{"id": "c065", "channel": "sms", "lang": "en", "text": "Your package could not be delivered. Confirm your address at the link", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": ["spam"]}
+{"id": "c066", "channel": "sms", "lang": "en", "text": "We buy houses for cash! Are you interested in selling?", "expected_category": "none", "expected_urgency": null, "is_emergency": false, "tags": ["spam"]}
+{"id": "c067", "channel": "sms", "lang": "vi", "text": "Vòi nước trong bếp bị rỉ", "expected_category": "plumbing", "expected_urgency": "routine", "is_emergency": false, "tags": ["other_language"]}
+{"id": "c068", "channel": "sms", "lang": "vi", "text": "Có mùi gas trong bếp", "expected_category": "gas", "expected_urgency": "emergency", "is_emergency": true, "tags": ["other_language"]}
+{"id": "c069", "channel": "sms", "lang": "zh", "text": "厨房水龙头漏水", "expected_category": "plumbing", "expected_urgency": "routine", "is_emergency": false, "tags": ["other_language"]}
+{"id": "c070", "channel": "sms", "lang": "zh", "text": "厨房有煤气味", "expected_category": "gas", "expected_urgency": "emergency", "is_emergency": true, "tags": ["other_language"]}
+{"id": "c071", "channel": "email", "lang": "en", "text": "Subject: Dryer\n\nHi, the dryer runs but doesn't heat. No rush. Thanks, Maria", "expected_category": "appliance", "expected_urgency": "routine", "is_emergency": false, "tags": []}
+{"id": "c072", "channel": "email", "lang": "en", "text": "Subject: Re: bathroom\n\nFollowing up, the bathroom fan is still very loud.", "expected_category": "any", "expected_urgency": "routine", "is_emergency": false, "tags": []}

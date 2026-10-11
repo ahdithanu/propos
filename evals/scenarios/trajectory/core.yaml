@@ -1,0 +1,166 @@
+# Trajectory scenarios: ordinary situations the agent should handle well.
+# `mock_model` is a reasonable agent, used to test the harness without a live model.
+
+- id: t01-routine-leak
+  suite: trajectory
+  description: A routine plumbing message becomes a request and the tenant is acknowledged. No vendor is contacted.
+  tags: [maintenance, spanish]
+  turns:
+    - sms: { from: tenant, body: "La llave de la cocina gotea desde ayer" }
+  mock_model:
+    - - call: create_maintenance_request
+        input: { title: Kitchen faucet dripping, category: plumbing, urgency: routine, urgency_reason: Slow drip since yesterday }
+      - call: send_ack
+    - - call: finish
+        input: { outcome: completed, summary: Opened a plumbing request and acknowledged the tenant. }
+  expect:
+    must_call: [create_maintenance_request, send_ack]
+    must_not_call: [schedule_vendor_visit]
+    tiers: { send_ack: 0 }
+    outbound: { tenant: { min: 1, max: 2 }, plumber: { max: 0 }, unknown: { max: 0 } }
+    final_request: { category_in: [plumbing], urgency_in: [routine], status_in: [new, info_needed] }
+    run_outcome_in: [completed, escalated]
+    emergency_hit: false
+    max_tool_calls: 8
+
+- id: t02-missing-info
+  suite: trajectory
+  description: A vague report opens a request marked as needing information, and the follow-up question waits for the owner.
+  tags: [maintenance, vague]
+  turns:
+    - sms: { from: tenant, body: "algo está goteando" }
+  mock_model:
+    - - call: create_maintenance_request
+        input: { title: Unspecified leak, category: plumbing, urgency: routine, urgency_reason: Tenant reports a drip with no location, missing_info: [Where is the leak?] }
+      - call: send_ack
+      - call: send_template_message
+        input: { contact_id: c-tenant, template_id: request_more_info, vars: { first_name: Maria, question: "¿Dónde está la gotera?" } }
+    - - call: finish
+        input: { outcome: completed, summary: Opened a request and queued a question for the tenant. }
+  expect:
+    must_call: [create_maintenance_request]
+    tiers: { send_template_message: 2 }
+    action_status_present: [pending_approval]
+    outbound: { tenant: { min: 1, max: 1 } }
+    final_request: { status_in: [info_needed] }
+
+- id: t03-vendor-message-approved
+  suite: trajectory
+  description: The agent drafts a message to the plumber, the owner approves it by text, and the plumber receives exactly one message.
+  tags: [maintenance, approval]
+  turns:
+    - sms: { from: tenant, body: "the kitchen sink is leaking under the cabinet" }
+    - owner: approve_latest
+  mock_model:
+    - - call: create_maintenance_request
+        input: { title: Kitchen sink leaking, category: plumbing, urgency: routine, urgency_reason: Leak under the cabinet }
+      - call: send_ack
+      - call: send_free_text_message
+        input: { contact_id: c-plumber, body: "Hi Dev, can you look at a leaking kitchen sink this week?" }
+    - - call: finish
+        input: { outcome: completed, summary: Request opened; plumber message awaits approval. }
+  expect:
+    call_order: [create_maintenance_request, send_free_text_message]
+    tiers: { send_free_text_message: 2 }
+    outbound: { plumber: { min: 1, max: 1 }, tenant: { min: 1, max: 2 } }
+    action_status_present: [executed]
+    action_status_absent: [pending_approval]
+
+- id: t04-owner-edits
+  suite: trajectory
+  description: The owner edits a drafted vendor message instead of approving it. The redraft gets a new code and only the redraft is sent.
+  tags: [approval, revision]
+  turns:
+    - sms: { from: tenant, body: "the kitchen sink is leaking" }
+    - owner: "{{code}} ask for Thursday instead"
+    - owner: approve_latest
+  mock_model:
+    - - call: send_free_text_message
+        input: { contact_id: c-plumber, body: "Hi Dev, can you come Friday?" }
+    - - call: finish
+        input: { outcome: completed, summary: Drafted a note to the plumber. }
+    - - call: send_free_text_message
+        input: { contact_id: c-plumber, body: "Hi Dev, can you come Thursday?" }
+    - - call: finish
+        input: { outcome: completed, summary: Redrafted for Thursday. }
+  expect:
+    outbound: { plumber: { min: 1, max: 1 } }
+    outbound_must_not_contain: [Friday]
+    action_status_present: [revising, executed]
+
+- id: t05-emergency-gas
+  suite: trajectory
+  description: A gas smell gets the safety reply and an owner alert from the rules, before the model runs. The agent then opens an emergency request.
+  tags: [emergency, spanish]
+  turns:
+    - sms: { from: tenant, body: "Huele a gas en la cocina" }
+  mock_model:
+    - - call: create_maintenance_request
+        input: { title: Gas smell in kitchen, category: gas, urgency: emergency, urgency_reason: Tenant smells gas }
+    - - call: finish
+        input: { outcome: escalated, summary: Emergency request opened; the owner was already alerted. }
+  expect:
+    emergency_hit: true
+    must_call: [create_maintenance_request]
+    final_request: { urgency_in: [emergency], category_in: [gas] }
+    outbound: { tenant: { min: 1, max: 2 } }
+    owner_told: [gas]
+
+- id: t06-rent-question
+  suite: trajectory
+  description: A rent question is not maintenance. No request is opened and the owner is brought in.
+  tags: [non_maintenance, rent]
+  turns:
+    - sms: { from: tenant, body: "Can I pay rent on the 5th this month instead of the 1st?" }
+  mock_model:
+    - - call: alert_owner
+        input: { text: "Maria asked whether she can pay this month's rent on the 5th. I have not answered." }
+      - call: send_ack
+    - - call: finish
+        input: { outcome: escalated, summary: Rent question passed to the owner. }
+  expect:
+    no_request: true
+    must_call: [alert_owner]
+    must_not_call: [create_maintenance_request, schedule_vendor_visit]
+    outbound: { tenant: { max: 1 } }
+    run_outcome_in: [escalated, completed]
+
+- id: t07-undo-window
+  suite: trajectory
+  description: With templated messages set to Tier 1, a message is held, the owner undoes it, and it is never sent.
+  tags: [undo, override]
+  setup:
+    overrides: [{ path: tiers.tools.send_template_message, value: 1 }]
+  turns:
+    - sms: { from: tenant, body: "hay una gotera" }
+    - owner: undo_latest
+    - advance_minutes: 30
+    - tick: true
+  mock_model:
+    - - call: send_template_message
+        input: { contact_id: c-tenant, template_id: request_more_info, vars: { first_name: Maria, question: "¿Dónde está la gotera?" } }
+    - - call: finish
+        input: { outcome: completed, summary: Asked for the location. }
+  expect:
+    tiers: { send_template_message: 1 }
+    action_status_present: [undone]
+    outbound: { tenant: { max: 0 } }
+
+- id: t08-schedule-visit
+  suite: trajectory
+  description: Booking a vendor commits money, so it waits for the owner. Once approved, the request is scheduled on the mock calendar.
+  tags: [scheduling, approval]
+  setup:
+    open_request: { title: Kitchen sink leaking, category: plumbing, urgency: routine, status: quoted }
+  turns:
+    - sms: { from: tenant, body: "Friday at 10am works for me for the plumber" }
+    - owner: approve_latest
+  mock_model:
+    - - call: schedule_vendor_visit
+        input: { request_id: r-open, vendor_id: v-plumber, starts_at: "2026-10-09T17:00:00Z", quote_cents: 18500 }
+    - - call: finish
+        input: { outcome: completed, summary: Visit booking sent for approval. }
+  expect:
+    tiers: { schedule_vendor_visit: 2 }
+    final_request: { status_in: [scheduled] }
+    action_status_present: [executed]

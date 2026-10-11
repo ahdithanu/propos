@@ -3,7 +3,7 @@
 An agent harness that handles tenant and vendor communication for one owner and
 one California rental house. The owner approves anything that matters by text.
 
-Status: Phase 1b. The agent loop, Postgres store and queue wiring exist; outbound adapters are still mocks, so nothing sends real messages. See `docs/decisions.md`
+Status: Phase 2. The agent loop, Postgres store and queue wiring exist; outbound adapters are still mocks, so nothing sends real messages. See `docs/decisions.md`
 for the phase plan and `docs/design.md` for the design.
 
 ## Run it
@@ -31,6 +31,7 @@ src/adapters/ mock SMS, email and calendar; staging redirect
 policy/      versioned policy defaults and message templates (EN, ES)
 prompts/     versioned prompts, prompts/<name>/v<N>.md
 supabase/    migrations and seed
-tests/       unit/ and db/
+evals/       datasets, scenarios, runner and report
+tests/       unit/, db/, learning/, integration/, contract/
 docs/        design, decisions, per-phase walkthroughs
 ```

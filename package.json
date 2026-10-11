@@ -15,6 +15,8 @@
     "test:db": "vitest run --project db",
     "test:learning": "vitest run --project learning",
     "test:integration": "vitest run --project integration",
+    "evals": "tsx evals/run.ts",
+    "evals:ci": "tsx evals/run.ts --model mock --gate",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset"
@@ -39,6 +41,7 @@
     "pg": "^8.23.1",
     "supabase": "^2.119.0",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vitest": "^5.0.3"
   }

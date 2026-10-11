@@ -53,3 +53,10 @@ jobs:
       - run: npm run test:learning
       # End-to-end on mocks; depends on the same three implementations.
       - run: npm run test:integration
+      # Eval gates on scripted models: rules-only recall and the adversarial suite.
+      - run: npm run evals:ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-report
+          path: evals/reports/
