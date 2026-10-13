@@ -1,0 +1,33 @@
+# Deploys Qwen 2.5 3B Instruct on one L4 behind vLLM's OpenAI-compatible server.
+# Config only: no Dockerfile and no custom model code.
+#
+# This follows Baseten's "deploy your first model" guide as read on 2026-10-13
+# (docs.baseten.co/development/model/build-your-first-model). It has NOT been
+# deployed from this repo yet.
+#
+# Deploy, from this directory:   baseten model push --tail --wait
+# Endpoint:                      https://model-<model_id>.api.baseten.co/environments/production/sync/v1
+
+# Named for the job, not the weights: this is what shows in the dashboard.
+model_name: triage-3b
+model_metadata:
+  tags:
+    - openai-compatible
+base_image:
+  image: vllm/vllm-openai:v0.27.1
+docker_server:
+  # --served-model-name is the name clients send as `model`. eval.py defaults to triage-3b.
+  start_command: vllm serve /models/qwen --served-model-name triage-3b --host 0.0.0.0 --port 8000
+  readiness_endpoint: /health
+  liveness_endpoint: /health
+  predict_endpoint: /v1/chat/completions
+  server_port: 8000
+weights:
+  # Pinned to a commit so a redeploy serves the same weights the eval measured.
+  - source: "hf://Qwen/Qwen2.5-3B-Instruct@aa8e72537993ba99e69dfaafa59ed015b17504d1"
+    mount_location: /models/qwen
+resources:
+  accelerator: L4
+  use_gpu: true
+runtime:
+  predict_concurrency: 256

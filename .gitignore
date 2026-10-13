@@ -1,0 +1,8 @@
+# Eval output contains every message and raw model output.
+eval_results*.json
+# Raw, un-anonymized messages never go in the repo.
+data/raw/
+.env
+__pycache__/
+.pytest_cache/
+.venv/
